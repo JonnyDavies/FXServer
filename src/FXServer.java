@@ -23,6 +23,8 @@ public class FXServer {
               System.exit(1);
           }
           
+          // Testing changes
+          
         // port number from command line
         int portNumber = Integer.parseInt(args[0]); 
         
