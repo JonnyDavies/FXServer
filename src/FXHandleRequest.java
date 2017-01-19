@@ -7,7 +7,7 @@ public class FXHandleRequest {
     private Socket socket = null;
     private PrintWriter out;
     private BufferedReader in;
-    public int [] num = {1};
+    public int [] num = {1001,6022,2983,4007};
 
     public FXHandleRequest (Socket socket) throws IOException{
       
@@ -30,7 +30,7 @@ public class FXHandleRequest {
             String inputLine, outputLine;  
 
             // call constructor of protocol
-            FXCurrencyChangeProtocolExample kkp = new FXCurrencyChangeProtocolExample();
+            FXCurrencyChangeProtocol kkp = new FXCurrencyChangeProtocol();
             // get very first initial post to client which is Knock Knock when called with num
             outputLine = kkp.processInput(num);  
             // send Knock Knock! to client
