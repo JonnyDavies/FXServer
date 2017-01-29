@@ -25,10 +25,7 @@ public class FXCurrencyChangeProtocol {
         
         // we put multiple values in an array
         // to split on the client to bind to 4 labels
-        // its expecting an array on the other side.
-        
+        // its expecting an array on the other side.        
         return theOutput;
     }
-    
-
 }
