@@ -7,38 +7,47 @@ public class FXHandleRequest {
     private Socket socket = null;
     private PrintWriter out;
     private BufferedReader in;
-    public int [] num = {1001,6022,2983,4007};
+    private FXMarketValues fm;
 
-    public FXHandleRequest (Socket socket) throws IOException{
-      
+    public FXHandleRequest (Socket socket, FXMarketValues fm ) throws IOException
+    {     
       this.socket = socket;
-      // server -> client
-      this.out = new PrintWriter(socket.getOutputStream(), true);       
-     // server <- client
-     try {
-       this.in = new BufferedReader(
-           new InputStreamReader(
-               socket.getInputStream()));
-     } catch (IOException e) {
-       // TODO Auto-generated catch block
-       e.printStackTrace();
-     }  
+      this.fm = fm;
+      this.out = new PrintWriter(socket.getOutputStream(), true);      
+      try 
+      {
+        this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      } 
+      catch (IOException e) 
+      {
+        e.printStackTrace();
+      }  
     }
     
-    public void handleRequest() {
-                  
-            String inputLine, outputLine;  
-
-            // call constructor of protocol
-            FXCurrencyChangeProtocol kkp = new FXCurrencyChangeProtocol();
-            // get very first initial post to client which is Knock Knock when called with num
-            outputLine = kkp.processInput(num);  
-            // send Knock Knock! to client
-            out.println(outputLine);
-            
-            return;
-            
-        } 
+    public void handleRequest() 
+    {               
+      String outputLine;
+      outputLine = this.processInput();  
+      out.println(outputLine);         
+      return; 
+    } 
+    
+    public String processInput() 
+    { 
+      
+      String theOutput = "";  
+      int[] num = fm.getNum();
+      String temps = String.valueOf(num[0]);       
+      theOutput += temps + "-";
+      temps = String.valueOf(num[1]); 
+      theOutput += temps + "-";
+      temps = String.valueOf(num[2]);  
+      theOutput += temps + "-";
+      temps = String.valueOf(num[3]);       
+      theOutput += temps;       
+      return theOutput;
+    }
+    
 }
 
 

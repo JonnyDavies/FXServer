@@ -12,53 +12,62 @@ import java.io.*;
 public class FXServer {
   
   
-    private static final int NTHREADS = 5;
-    private static final ScheduledExecutorService  exec = Executors.newScheduledThreadPool(NTHREADS);
+    private static final int NTHREADS = 6;
+    private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(NTHREADS);
+    private String started;
+    
+    public FXServer()
+    {
+      this.started = "done";
+    }
     
     
     public static void main(String[] args) throws IOException {
 
-          if (args.length != 1) {
-              System.err.println("Usage: java KKMultiServer <port number>");
-              System.exit(1);
-          }
-          
-          // Testing changes
-          
-        // port number from command line
-        int portNumber = Integer.parseInt(args[0]); 
-        
-        // loop flag
-        boolean listening = true;
-        
-        
-        
-        // SERVERSOCKET
-        try (ServerSocket serverSocket = new ServerSocket(portNumber)) { 
-          
-          
-        // loop forever 
-          while (listening) {
-            
-             Socket connection = serverSocket.accept();
-             FXHandleRequest fxh = new FXHandleRequest(connection);                    
-            // call MultiserverThread class
-            Runnable task = new Runnable(){
-              public void run (){
-                fxh.handleRequest();
-              }
-            };
-                 
-            exec.scheduleAtFixedRate(task,1L,1L, TimeUnit.SECONDS);    
-                        
-          }
-        } 
-        
-           
-        catch (IOException e) {
-            System.err.println("Could not listen on port " + portNumber);
-            System.exit(-1);
+        if (args.length != 1) 
+        {
+            System.err.println("Usage: java KKMultiServer <port number>");
+            System.exit(1);
         }
-    }
+
+        int portNumber = Integer.parseInt(args[0]);       
+        FXServer fxs = new FXServer();
+        fxs.startListening(portNumber);        
+       
+    } 
     
+    public void startListening(int portNumber)
+    {
+      boolean listening = true;
+
+      try (ServerSocket serverSocket = new ServerSocket(portNumber)) 
+      { 
+        FXMarketValues mv = new FXMarketValues();
+        Runnable tick = new Runnable(){
+          public void run (){
+            mv.incrementValues();
+          }
+        };
+        
+        exec.scheduleAtFixedRate(tick,1L,1L, TimeUnit.SECONDS);
+        
+        while (listening) 
+        {            
+           Socket connection = serverSocket.accept();
+           FXHandleRequest fxh = new FXHandleRequest(connection, mv);                    
+         
+           Runnable task = new Runnable(){
+             public void run (){
+               fxh.handleRequest();
+             }
+           }; 
+           
+          exec.scheduleAtFixedRate(task,1L,1L, TimeUnit.SECONDS);                           
+        }
+      }        
+      catch (IOException e) {
+          System.err.println("Could not listen on port " + portNumber);
+          System.exit(-1);
+      }
+    }
 }
