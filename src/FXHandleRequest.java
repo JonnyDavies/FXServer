@@ -1,6 +1,7 @@
 
 import java.net.*;
 import java.io.*;
+import java.math.BigDecimal;
 
 public class FXHandleRequest {
   
@@ -36,7 +37,7 @@ public class FXHandleRequest {
     { 
       
       String theOutput = "";  
-      int[] num = fm.getNum();
+      BigDecimal[] num = fm.getNum();
       String temps = String.valueOf(num[0]);       
       theOutput += temps + "-";
       temps = String.valueOf(num[1]); 
