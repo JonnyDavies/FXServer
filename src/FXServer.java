@@ -45,7 +45,7 @@ public class FXServer {
         FXMarketValues mv = new FXMarketValues();
         Runnable tick = new Runnable(){
           public void run (){
-            mv.incrementValues();
+            mv.applyMarketValueChange();
           }
         };
         
