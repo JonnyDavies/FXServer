@@ -9,18 +9,20 @@ public class FXMarketValues {
   public FXMarketValues()
   {
     start = "Done";    
-    num[0] = new BigDecimal("1.021");
-    num[1] = new BigDecimal("1.00002");
-    num[2] = new BigDecimal("1.00003");
-    num[3] = new BigDecimal("2.00001");
+    num[0] = new BigDecimal("1.001");
+    num[1] = new BigDecimal("1.002");
+    num[2] = new BigDecimal("1.001");
+    num[3] = new BigDecimal("2.001");
   }
   
   public void applyMarketValueChange()
   {
     this.getMarcketValueOperation(0);
-    num[1] = num[1].add(new BigDecimal ("0.00004"));
-    num[2] = num[2].add(new BigDecimal ("0.00002"));
-    num[3] = num[3].add(new BigDecimal ("0.00008"));
+    this.getMarcketValueOperation(1);
+    this.getMarcketValueOperation(2);
+    this.getMarcketValueOperation(3);
+    //num[2] = num[2].add(new BigDecimal ("0.00002"));
+   // num[3] = num[3].add(new BigDecimal ("0.00008"));
   }
   
   public void getMarcketValueOperation(int index)
