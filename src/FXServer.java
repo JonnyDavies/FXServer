@@ -46,6 +46,8 @@ public class FXServer {
         Runnable tick = new Runnable(){
           public void run (){
             mv.applyMarketValueChange();
+            mv.printLeaderboard();
+            System.out.println(mv.getLeaderBoard());
           }
         };
         
@@ -59,6 +61,7 @@ public class FXServer {
            Runnable task = new Runnable(){
              public void run (){
                fxh.handleRequest();
+               fxh.printClient();
              }
            }; 
            
