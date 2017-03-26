@@ -9,12 +9,17 @@ public class FXHandleRequest {
     private PrintWriter out;
     private BufferedReader in;
     private FXMarketValues fm;
+    private String traderName;
+    private Integer currentEquity;
 
     public FXHandleRequest (Socket socket, FXMarketValues fm ) throws IOException
     {     
       this.socket = socket;
       this.fm = fm;
-      this.out = new PrintWriter(socket.getOutputStream(), true);      
+      this.out = new PrintWriter(socket.getOutputStream(), true);  
+      this.traderName = "Unknown";
+      this.currentEquity = 0;
+      
       try 
       {
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -32,6 +37,31 @@ public class FXHandleRequest {
       out.println(outputLine);         
       return; 
     } 
+    
+    public void printClient()
+    {
+      String inputLine = "Nothing";
+      try{      
+            inputLine = this.in.readLine();
+            if (inputLine.compareTo("END") == 0)
+            {
+              this.out.close();
+              this.in.close();
+              this.socket.close();
+            }
+            else 
+            {
+              String[] s = inputLine.split("-");
+              this.fm.addTraderPosition(s[0],s[1]);
+              this.traderName = s[1];
+            }
+            return;
+      }
+      catch(IOException e){
+        e.printStackTrace();
+
+      }      
+    }
     
     public String processInput() 
     { 

@@ -20,8 +20,7 @@ public class FXServer {
     {
       this.started = "done";
     }
-    
-    
+        
     public static void main(String[] args) throws IOException {
 
         if (args.length != 1) 
@@ -46,6 +45,8 @@ public class FXServer {
         Runnable tick = new Runnable(){
           public void run (){
             mv.applyMarketValueChange();
+            mv.printLeaderboard();
+            System.out.println(mv.getLeaderBoard());
           }
         };
         
@@ -59,6 +60,7 @@ public class FXServer {
            Runnable task = new Runnable(){
              public void run (){
                fxh.handleRequest();
+               fxh.printClient();
              }
            }; 
            

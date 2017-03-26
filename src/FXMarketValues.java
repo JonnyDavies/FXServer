@@ -1,11 +1,15 @@
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class FXMarketValues {
   
   private BigDecimal[] num = new BigDecimal[4];
   private String start;
+  private Map<String, BigDecimal> leaderboard = new HashMap<String, BigDecimal>();
 
+  
   public FXMarketValues()
   {
     start = "Done";    
@@ -21,8 +25,6 @@ public class FXMarketValues {
     this.getMarcketValueOperation(1);
     this.getMarcketValueOperation(2);
     this.getMarcketValueOperation(3);
-    //num[2] = num[2].add(new BigDecimal ("0.00002"));
-   // num[3] = num[3].add(new BigDecimal ("0.00008"));
   }
   
   public void getMarcketValueOperation(int index)
@@ -104,5 +106,50 @@ public class FXMarketValues {
   {
     return num;
   }
+  
+  
+
+  public Map<String, BigDecimal>  getLeaderBoard()
+  {
+    Map<String, BigDecimal> leaderboardTemp = new HashMap<String, BigDecimal>();
+    leaderboardTemp = MapUtil.sortByValue(this.leaderboard); 
+    return leaderboardTemp;
+  }
+  
+  public void removeTraderPosition(String trader)
+  {
+    this.leaderboard.values().remove(trader);
+  }
+  
+  public synchronized void addTraderPosition(String equity, String tradername)
+  {
+    this.leaderboard.values().remove(tradername);   
+    this.leaderboard.put(tradername,new BigDecimal(equity));
+  }
+  
+  public int leaderBoardSize()
+  {
+    return leaderboard.size();
+  }
+  
+  public synchronized void printLeaderboard()
+  { 
+    Map<String, BigDecimal> leaderboardTemp = new HashMap<String, BigDecimal>();
+    leaderboardTemp = MapUtil.sortByValue(this.leaderboard);    
+    printMap(leaderboardTemp);
+  }
+  
+  
+  public <K, V> void printMap(Map<K, V> map) {
+    System.out.println("\n========= Leaderboard =========\n");
+    for (Map.Entry<K, V> entry : map.entrySet()) {
+        System.out.println("Trader : " + entry.getKey()
+            + " Equity : " + entry.getValue());
+    }
+  }
+  
+  
+  
+  
 
 }
