@@ -25,8 +25,6 @@ public class FXMarketValues {
     this.getMarcketValueOperation(1);
     this.getMarcketValueOperation(2);
     this.getMarcketValueOperation(3);
-    //num[2] = num[2].add(new BigDecimal ("0.00002"));
-   // num[3] = num[3].add(new BigDecimal ("0.00008"));
   }
   
   public void getMarcketValueOperation(int index)

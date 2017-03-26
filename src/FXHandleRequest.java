@@ -42,10 +42,19 @@ public class FXHandleRequest {
     {
       String inputLine = "Nothing";
       try{      
-            inputLine = this.in.readLine();            
-            String[] s = inputLine.split("-");
-            this.fm.addTraderPosition(s[0],s[1]);
-            this.traderName = s[1];
+            inputLine = this.in.readLine();
+            if (inputLine.compareTo("END") == 0)
+            {
+              this.out.close();
+              this.in.close();
+              this.socket.close();
+            }
+            else 
+            {
+              String[] s = inputLine.split("-");
+              this.fm.addTraderPosition(s[0],s[1]);
+              this.traderName = s[1];
+            }
             return;
       }
       catch(IOException e){
