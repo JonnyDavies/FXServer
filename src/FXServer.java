@@ -9,9 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import java.io.*;
 
-public class FXServer {
-  
-  
+public class FXServer 
+{
     private static final int NTHREADS = 6;
     private static final ScheduledExecutorService exec = Executors.newScheduledThreadPool(NTHREADS);
     private String started;
@@ -21,18 +20,17 @@ public class FXServer {
       this.started = "done";
     }
         
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] args) throws IOException 
+    {
         if (args.length != 1) 
         {
-            System.err.println("Usage: java KKMultiServer <port number>");
+            System.err.println("Usage: java FXServer <port number>");
             System.exit(1);
         }
 
         int portNumber = Integer.parseInt(args[0]);       
         FXServer fxs = new FXServer();
-        fxs.startListening(portNumber);        
-       
+        fxs.startListening(portNumber);             
     } 
     
     public void startListening(int portNumber)
@@ -46,7 +44,6 @@ public class FXServer {
           public void run (){
             mv.applyMarketValueChange();
             mv.printLeaderboard();
-            System.out.println(mv.getLeaderBoard());
           }
         };
         

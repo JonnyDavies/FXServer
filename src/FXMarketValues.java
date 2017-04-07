@@ -3,13 +3,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class FXMarketValues {
-  
+public class FXMarketValues 
+{  
   private BigDecimal[] num = new BigDecimal[4];
   private String start;
   private Map<String, BigDecimal> leaderboard = new HashMap<String, BigDecimal>();
-
-  
+ 
   public FXMarketValues()
   {
     start = "Done";    
@@ -50,7 +49,7 @@ public class FXMarketValues {
   {
     Random rdm = new Random();
     
-    switch (rdm.nextInt(6))
+    switch (rdm.nextInt(5))
     {
       case 0 :
         num[index] = num[index].add(new BigDecimal ("0.001"));
@@ -64,11 +63,8 @@ public class FXMarketValues {
       case 3 :  
         num[index] = num[index].add(new BigDecimal ("0.004"));
         break;
-      case 4 :
+      case 4 :  
         num[index] = num[index].add(new BigDecimal ("0.005"));
-        break;
-      case 5 :  
-        num[index] = num[index].add(new BigDecimal ("0.006"));
         break;
     }
     
@@ -89,15 +85,6 @@ public class FXMarketValues {
       case 2 :
         num[index] = num[index].subtract(new BigDecimal ("0.003"));
         break;
-      case 3 :  
-        num[index] = num[index].subtract(new BigDecimal ("0.004"));
-        break;
-      case 4 :
-        num[index] = num[index].subtract(new BigDecimal ("0.005"));
-        break;
-      case 5 :  
-        num[index] = num[index].subtract(new BigDecimal ("0.006"));
-        break;
     }
     
   }
@@ -105,14 +92,12 @@ public class FXMarketValues {
   public BigDecimal[] getNum()
   {
     return num;
-  }
-  
-  
+  } 
 
   public Map<String, BigDecimal>  getLeaderBoard()
   {
     Map<String, BigDecimal> leaderboardTemp = new HashMap<String, BigDecimal>();
-    leaderboardTemp = MapUtil.sortByValue(this.leaderboard); 
+    leaderboardTemp = FXSortLeaderBoard.sortByValue(this.leaderboard); 
     return leaderboardTemp;
   }
   
@@ -135,21 +120,17 @@ public class FXMarketValues {
   public synchronized void printLeaderboard()
   { 
     Map<String, BigDecimal> leaderboardTemp = new HashMap<String, BigDecimal>();
-    leaderboardTemp = MapUtil.sortByValue(this.leaderboard);    
+    leaderboardTemp = FXSortLeaderBoard.sortByValue(this.leaderboard);    
     printMap(leaderboardTemp);
   }
-  
-  
+ 
   public <K, V> void printMap(Map<K, V> map) {
-    System.out.println("\n========= Leaderboard =========\n");
-    for (Map.Entry<K, V> entry : map.entrySet()) {
-        System.out.println("Trader : " + entry.getKey()
-            + " Equity : " + entry.getValue());
+    System.out.println("\n\t  ============== Trader's Leaderboard ==============\t\n");
+    int position = 0;
+    for (Map.Entry<K, V> entry : map.entrySet()) 
+    {
+        System.out.println("\t\t" + ++position + ".  Trader: " + entry.getKey() + " Equity: " + entry.getValue());
     }
+    System.out.println("\n\n\n");
   }
-  
-  
-  
-  
-
 }
